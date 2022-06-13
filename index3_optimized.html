@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+
+            var prevColor;
+            var clickCheck=false;
+            var thisCheck1;
+            var thisCheck2;
+            const array=[]
+            var count=0
+            $('.grid-container').on('mouseover','div',function(e){
+                console.log("on mouse over called",count)
+
+               if(count==1){
+                // if(thisCheck1!=this && thisCheck2!=this && clickCheck){
+               if(clickCheck){
+                if($(this).css('background-color')=="rgb(0, 0, 0)"){
+                    $(this).css('background-color','red')
+                    array.push({thisVal:this,thisCol:'black'})
+                    setTimeout(()=>{
+                        $(this).css('background-color','black')
+
+                    },3000)
+                }
+                else if($(this).css('background-color')=="rgb(255, 255, 255)"){
+                    $(this).css('background-color','Cyan')
+                    array.push({thisVal:this,thisCol:'white'})
+                    setTimeout(()=>{
+                        $(this).css('background-color','white')
+
+                    },3000)
+
+                }
+            }
+        }
+                
+            })
+            
+            // $('.grid-container').on('mouseleave','div',function(e){
+            //     console.log("on mouse leave called")
+            //     if(thisCheck1!=this && thisCheck2!=this){
+            //     if($(this).css('background-color')=="rgb(255, 0, 0)"){
+            //         $(this).css('background-color','black')
+            //     }
+            //     else if($(this).css('background-color')=="rgb(0, 255, 255)"){
+            //         $(this).css('background-color','white')
+            //     }
+            // }
+                
+            // })
+        
+            
+            $('.grid-container').on('click', 'div', function(e) {  
+
+                clickCheck=true;
+                count++;
+                if(count==3)
+                  count=1
+                
+                if($(this).css('background-color')=="rgb(0, 0, 0)"){
+                    prevColor="black"
+                    $(this).css('background-color','red');
+                    thisCheck1=this;
+                
+                    setTimeout(()=>{
+                        $(thisCheck1).css('background-color',"black");
+                       // window.location.reload();
+                    //    for(let i=0;i<array.length;i++){
+                    //        $(array[i].thisVal).css('background-color',array[i].thisCol)
+                    //    }
+                    //     console.log(array)
+            //           array.length=0
+
+                   // clickCheck=false;
+
+                    },3000)
+                    
+                    console.log("in if"+prevColor)
+
+
+                }
+                else if($(this).css('background-color')=="rgb(255, 255, 255)"){
+                    prevColor="white"
+                    $(this).css('background-color','Cyan');
+                    thisCheck2=this
+                    setTimeout(()=>{
+                        $(thisCheck2).css('background-color',"white");
+                      //  clickCheck=false;
+                       // window.location.reload();
+                    //    for(let i=0;i<array.length;i++){
+                    //        $(array[i].thisVal).css('background-color',array[i].thisCol)
+                    //    }
+                    //   console.log(array)
+                   //    array.length=0
+                        
+                    },3000)
+                    console.log("in if"+prevColor)
+
+                }
+    //   else{
+    //     setTimeout(()=>{
+    //         $(this).css('background-color',prevColor);
+    //     },3000)
+    //     console.log("in else"+prevColor)
+
+    //   }
+
+
+   // GetGridElementsPosition($(this).index(), $(this)); //Pass in the index of the clicked div
+  });
+});
+
+function GetGridElementsPosition(index, element) {
+   
+  //Get the css attribute grid-template-columns from the css of class grid
+  //split on whitespace and get the length, this will give you how many columns
+  const colCount = $('.grid-container').css('grid-template-columns').split(' ').length;
+  const colPosition = index % colCount;
+  const rowPosition = Math.floor(index / colCount);
+
+
+  console.log("index: "+index+" colcount:"+colCount+" colposition:"+colPosition+" rowposition:"+(colCount-(rowPosition+1)))
+
+  
+  /* determine if it is a last column */
+  if (colPosition==(colCount-1)) {
+    $(element).html('row:'+rowPosition+'. col:'+colPosition+'. Last column');
+    console.log(rowPosition+" ."+ colPosition )
+  } else {
+    $(element).html('row:'+rowPosition+'. col:'+colPosition+'. Not last column');
+    console.log(rowPosition+" ."+ colPosition )
+
+  }
+
+}
+    </script>
+</head>
+<style>
+
+
+    html,body{
+        margin: 0;
+        padding: 0;
+    }
+    .container{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;     
+    }
+    
+    .grid-container{
+      
+      display:grid;
+      grid-template-rows: repeat(9,11.11%);
+      grid-template-columns: repeat(9,11.11%);
+     
+        
+    }
+    
+    .grid-container>div{
+        background-color: white;
+        
+        padding: 18px;
+        text-align: center;
+    
+    }
+    
+    .grid-container>div:nth-child(odd){
+        background-color: black;
+    }
+
+    .grid-container>div:nth-child(2){
+        border-left: 4px solid black;
+    }
+    .grid-container>div:nth-child(20){
+        border-left: 4px solid black;
+    }
+    .grid-container>div:nth-child(38){
+        border-left: 4px solid black;
+    }
+    .grid-container>div:nth-child(56){
+        border-left: 4px solid black;
+    }
+    .grid-container>div:nth-child(18){
+        border-right: 4px solid black;
+    }
+    .grid-container>div:nth-child(36){
+        border-right: 4px solid black;
+    }
+    .grid-container>div:nth-child(54){
+        border-right: 4px solid black;
+    }
+    .grid-container>div:nth-child(72){
+        border-right: 4px solid black;
+    }
+    
+    </style>
+    
+    
+<body onload="start()">
+
+
+<div class="container" style="background-color: white;">
+    <div class="grid-container" id="grid" >
+    <!-- #### -->
+        <!-- <div style="border: 2px solid transparent;">
+        8
+        </div> -->
+
+
+    </div>
+    
+</div>
+    
+    <script>
+        function start(){
+
+            const gridCont=document.getElementById("grid")
+            var counter=8;
+            var char=65
+            for(let i=0;i<81;i++){
+                const innerDiv=document.createElement('div')
+                if(counter!=0 && (i%9==0 | i==0)){
+                    innerDiv.textContent=counter;
+                    innerDiv.style.backgroundColor="white"
+                    innerDiv.style.pointerEvents="none"
+                    counter--
+                }
+                else if(i>72){
+                    innerDiv.textContent=String.fromCharCode(char)
+                    innerDiv.style.backgroundColor="white"
+                    innerDiv.style.borderTop="4px solid black"
+                    innerDiv.style.pointerEvents="none"
+
+                    char++
+
+                }
+                else if(i ==72){
+                    innerDiv.style.backgroundColor="white"
+                }
+                else if(i>0 && i<9){
+                    innerDiv.style.borderTop="4px solid black"
+                }
+                
+                
+                gridCont.append(innerDiv)
+
+            }
+
+        }
+    </script>
+
+
+</body>
+</html>
